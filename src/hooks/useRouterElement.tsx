@@ -28,9 +28,10 @@ function useRouterElement() {
       element: <HomePage />,
     },
     {
-      path: "/:slug",
+      path: "/posts/:slug",
       element: <DetailPage />,
     },
+
     // {
     //   path: "/dashboard",
     //   element: <Dashboard />,

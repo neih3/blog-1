@@ -1,44 +1,38 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useSearchParams } from "react-router-dom";
 import Category from "../../components/Category";
-import sanityClient from "../../client.js";
 import BlogCard from "../../components/BlogCard/BlogCard";
-import { fetchPosts } from "../../api/post.js";
-
-const categories = [
-  { name: "For you", isActive: true },
-  { name: "Following" },
-  { name: "Featured", isNew: true },
-  { name: "Cybersecurity" },
-  { name: "Software Engineering" },
-  { name: "Web Development" },
-  { name: "Mobile Development" },
-  { name: "Data Science" },
-  { name: "Machine Learning" },
-  { name: "DevOps" },
-  { name: "Cloud Computing" },
-];
-
-// Hàm fetch dữ liệu từ Sanity
+import { fetchPosts, fetchPostsInCategory } from "../../api/post.js";
 
 export default function HomePage() {
-  // Sử dụng React Query để fetch dữ liệu
+  const [searchParams] = useSearchParams();
+  const location = useLocation();
+  const tag = searchParams.get("tag");
+  const categoryId = location.state?.categoryId; // ✅ Tránh lỗi khi `categoryId` là undefined
+
   const {
-    data: posts,
+    data: posts = [], // ✅ Tránh lỗi khi `posts` là undefined
     isLoading,
     isError,
   } = useQuery({
-    queryKey: ["posts"],
-    queryFn: fetchPosts,
+    queryKey: ["posts", tag],
+    queryFn: () => {
+      if (tag && categoryId) {
+        return fetchPostsInCategory(categoryId);
+      }
+      return fetchPosts();
+    },
+    enabled: true, //
   });
 
   if (isLoading)
     return (
-      <p className="text-center mt-10">
+      <div className="text-center mt-10">
         <div className="skeleton h-32 w-32"></div>
-      </p>
+      </div>
     );
+
   if (isError)
     return (
       <p className="text-center mt-10 text-red-500">Error loading posts.</p>
@@ -47,19 +41,23 @@ export default function HomePage() {
   return (
     <div className="container mx-auto">
       <div className="max-w-screen-xl mx-auto mt-4">
-        <Category categories={categories} />
+        <Category />
       </div>
 
       <div className="max-w-screen-lg mx-auto mt-10">
-        {posts.map((post) => (
-          <Link to={"/" + post.slug.current} key={post.slug.current}>
-            <BlogCard
-              title={post.title}
-              authorName={post.authorName}
-              image={post.mainImage.asset.url}
-            />
-          </Link>
-        ))}
+        {posts.length === 0 ? (
+          <p className="text-gray-500 text-center">No posts found</p>
+        ) : (
+          posts.map((post) => (
+            <Link to={`/posts/${post.slug.current}`} key={post.slug.current}>
+              <BlogCard
+                title={post.title}
+                authorName={post.authorName}
+                image={post.mainImage.asset.url}
+              />
+            </Link>
+          ))
+        )}
       </div>
     </div>
   );

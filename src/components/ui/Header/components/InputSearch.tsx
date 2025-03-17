@@ -89,15 +89,15 @@ export default function InputSearch() {
             <p className="text-gray-500">No results found</p>
           ) : (
             searchResults?.map((post) => (
-              <li key={post.slug.current} className="p-2 hover:bg-gray-100">
-                <Link to={"/" + post.slug.current}>
+              <div key={post.slug.current} className="p-2 hover:bg-gray-100">
+                <Link to={"/posts/" + post.slug.current}>
                   <BlogCard
                     title={post.title}
                     authorName={post.authorName}
                     image={post.mainImage.asset.url}
                   />
                 </Link>
-              </li>
+              </div>
             ))
           )}
         </div>

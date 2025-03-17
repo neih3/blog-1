@@ -5,9 +5,9 @@ export default function App() {
   const routeElement = useRouterElement();
 
   return (
-    <>
+    <div className="h-screen">
       <Header />
       {routeElement}
-    </>
+    </div>
   );
 }

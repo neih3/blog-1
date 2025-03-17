@@ -7,9 +7,9 @@ export default function BlogCard({ title, authorName, image }) {
         <div className="w-4/5">
           <h3 className="text-sm text-gray-600">{authorName}</h3>
           <h2 className="font-bold text-xl line-clamp-2">{title}</h2>
-          <span className="text-gray-500">
+          {/* <span className="text-gray-500">
             How to start cyber security in 2025
-          </span>
+          </span> */}
         </div>
         <div className="w-1/5">
           <div className="">

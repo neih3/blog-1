@@ -59,8 +59,6 @@ export default function DetailPage() {
         src={urlFor(postData.mainImage).width(800).url()}
         alt={postData.title}
       />
-      <div></div>
-      // Simple, single-line loading skeleton // Five-line loading skeleton
       {/* Hiển thị nội dung bài viết */}
       <div className="mt-6 px-4 text-gray-700">
         <PortableText

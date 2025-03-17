@@ -2,7 +2,7 @@ import React from "react";
 
 export default function SVGImage() {
   return (
-    <div className="w-48 h-24">
+    <div className="w-30 h-6 md:w-44 md:h-20 lg:w-48 lg:h-24">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
