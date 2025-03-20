@@ -1,4 +1,3 @@
-import React from "react";
 import { timeAgo } from "../../../utils/date-utils";
 
 export default function HeaderBlog({ title, authorImage, name, publishedAt }) {
@@ -6,17 +5,17 @@ export default function HeaderBlog({ title, authorImage, name, publishedAt }) {
     <div>
       <h2 className="text-3xl font-bold text-left">{title}</h2>
 
-      <div className="flex items-center justify-start mt-4">
-        {authorImage && (
-          <img
-            src={authorImage}
-            className="w-12 h-12 rounded-full mr-2"
-            alt={name}
-          />
-        )}
+      <div className="flex items-center justify-start mt-10 gap-4">
+        <div className="avatar">
+          <div className="w-16 rounded-full">
+            <img src={authorImage} />
+          </div>
+        </div>
         <div>
-          <h4 className="text-xl font-semibold">{name}</h4>
-          <p className="text-gray-500">{timeAgo(publishedAt)}</p>
+          <div>
+            <h4 className="text-lg font-semibold">{name}</h4>
+            <p className="text-gray-500">{timeAgo(publishedAt)}</p>
+          </div>
         </div>
       </div>
     </div>

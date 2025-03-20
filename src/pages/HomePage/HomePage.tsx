@@ -1,4 +1,3 @@
-import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Link, useLocation, useSearchParams } from "react-router-dom";
 import Category from "../../components/Category";
@@ -28,8 +27,19 @@ export default function HomePage() {
 
   if (isLoading)
     return (
-      <div className="text-center mt-10">
-        <div className="skeleton h-32 w-32"></div>
+      <div className="container mx-auto">
+        <div className="max-w-screen-lg mx-auto mt-10">
+          <div className="flex justify-center">
+            <div className="flex gap-4 border-b border-gray-200 p-4 w-full">
+              <div className="w-4/5">
+                <div className="w-10 h-4 skeleton"></div>
+              </div>
+              <div className="w-1/5">
+                <div className="skeleton h-32 w-32"></div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     );
 
@@ -37,7 +47,7 @@ export default function HomePage() {
     return (
       <p className="text-center mt-10 text-red-500">Error loading posts.</p>
     );
-
+  console.log(posts);
   return (
     <div className="container mx-auto">
       <div className="max-w-screen-xl mx-auto mt-4">
@@ -53,7 +63,7 @@ export default function HomePage() {
               <BlogCard
                 title={post.title}
                 authorName={post.authorName}
-                image={post.mainImage.asset.url}
+                image={post.mainImage?.asset.url || ""}
               />
             </Link>
           ))

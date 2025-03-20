@@ -14,7 +14,7 @@ export const fetchPosts = async () => {
             _id,
             url
           },
-          alt
+          alt 
         }
       } | order(publishedAt desc)`
   );
@@ -22,32 +22,48 @@ export const fetchPosts = async () => {
   return data;
 };
 
-// Hàm fetch dữ liệu từ Sanity
 export const fetchPost = async (slug) => {
   const data = await sanityClient.fetch(
-    `*[slug.current == $slug]{
+    `*[_type == "post" && slug.current == $slug][0] {
         title,
+        _id,
         slug,
+        "comments": comments[]->{
+            _id,
+            likes,
+            publishedAt,
+            title, 
+            user-> {
+              name,
+          "image": mainImage.asset->url
+            }
+        },
         publishedAt,
-        mainImage{
+        mainImage {
           asset->{
             _id,
             url
           }
         },
         body,
-        "name": author->name,
-        "authorImage": author->image.asset->url
+        user->{
+          _id,
+          name,
+          email,
+          "image": mainImage.asset->url
+        }
       }`,
     { slug }
   );
-  return data[0]; // Chỉ lấy bài viết đầu tiên
+
+  return data;
 };
 
 export const fetchSearchPost = async (query: string) => {
   const data = await sanityClient.fetch(
     `*[_type == "post" && title match $query] {
         title,
+        _id,
         slug,
         "authorName": author->name,
         "authorImage": author->image.asset->url, 
@@ -70,6 +86,7 @@ export const fetchPostsInCategory = async (categoryId: string) => {
   const data = await sanityClient.fetch(
     `*[_type == "post" && references($categoryId)] | order(publishedAt desc) {
       title,
+  
       slug,
       "authorName": author->name,
       "authorImage": author->image.asset->url, 

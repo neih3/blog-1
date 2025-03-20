@@ -53,8 +53,8 @@ const Category: React.FC = () => {
 
   if (isLoading)
     return (
-      <div className="text-center mt-10">
-        <div className="skeleton h-32 w-32"></div>
+      <div className="relative flex items-center ">
+        <div className="skeleton h-4 w-full"></div>
       </div>
     );
   if (isError)

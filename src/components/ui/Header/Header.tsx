@@ -1,8 +1,13 @@
-import React from "react";
 import SVGImage from "./components/SVGImage";
 import InputSearch from "./components/InputSearch";
 import { Link } from "react-router-dom";
 import Drawbar from "./components/Drawbar";
+import {
+  SignedIn,
+  SignedOut,
+  SignInButton,
+  UserButton,
+} from "@clerk/clerk-react";
 
 export default function Header() {
   return (
@@ -11,11 +16,21 @@ export default function Header() {
         <Link to="/">
           <SVGImage />
         </Link>
-        <div className="block sm:hidden">
-          <Drawbar />
-        </div>
-        <div className="hidden sm:block">
-          <InputSearch />
+        <div className="flex items-center gap-3">
+          <div className="block sm:hidden">
+            <Drawbar />
+          </div>
+          <div className="hidden sm:block">
+            <InputSearch />
+          </div>
+          <div>
+            <SignedOut>
+              <SignInButton />
+            </SignedOut>
+            <SignedIn>
+              <UserButton />
+            </SignedIn>
+          </div>
         </div>
       </div>
     </div>
