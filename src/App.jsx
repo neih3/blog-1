@@ -3,7 +3,7 @@ import useRouterElement from "./hooks/useRouterElement";
 import { useEffect } from "react";
 import { useUser } from "@clerk/clerk-react";
 import sanityClient from "../src/client";
-
+import { ToastContainer } from "react-toastify";
 const uploadImageToSanity = async (imageUrl) => {
   try {
     // Tải ảnh về dưới dạng Blob
@@ -68,6 +68,7 @@ export default function App() {
   }, [user]); // Chỉ chạy khi user thay đổi
   return (
     <div className="h-screen">
+      <ToastContainer />
       <Header />
       {routeElement}
     </div>

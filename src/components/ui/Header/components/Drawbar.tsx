@@ -1,5 +1,5 @@
 import { Menu } from "lucide-react";
-import React from "react";
+
 import InputSearch from "./InputSearch";
 
 export default function Drawbar() {

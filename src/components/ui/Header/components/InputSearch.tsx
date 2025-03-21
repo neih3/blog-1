@@ -82,7 +82,7 @@ export default function InputSearch() {
 
       {/* Hiển thị kết quả tìm kiếm */}
       {openDropdown && (
-        <div className="absolute top-16 z-50 bg-white shadow-lg mt-2 w-full rounded-md p-2">
+        <div className="absolute top-16 z-50  shadow-lg mt-2 w-full rounded-md p-2">
           {isLoading && <p>Loading...</p>}
           {isError && <p className="text-red-500">Error fetching results</p>}
           {searchResults && searchResults.length === 0 ? (
@@ -90,7 +90,10 @@ export default function InputSearch() {
           ) : (
             searchResults?.map((post) => (
               <div key={post.slug.current} className="p-2 hover:bg-gray-100">
-                <Link to={"/posts/" + post.slug.current}>
+                <Link
+                  to={"/posts/" + post.slug.current}
+                  onClick={() => setOpenDropdown((prev) => !prev)}
+                >
                   <BlogCard
                     title={post.title}
                     authorName={post.authorName}

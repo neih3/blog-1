@@ -15,7 +15,7 @@ export default function HomePage() {
     isLoading,
     isError,
   } = useQuery({
-    queryKey: ["posts", tag],
+    queryKey: ["posts", tag, categoryId],
     queryFn: () => {
       if (tag && categoryId) {
         return fetchPostsInCategory(categoryId);
@@ -24,7 +24,7 @@ export default function HomePage() {
     },
     enabled: true, //
   });
-
+  console.log(posts);
   if (isLoading)
     return (
       <div className="container mx-auto">
@@ -47,7 +47,7 @@ export default function HomePage() {
     return (
       <p className="text-center mt-10 text-red-500">Error loading posts.</p>
     );
-  console.log(posts);
+
   return (
     <div className="container mx-auto">
       <div className="max-w-screen-xl mx-auto mt-4">
@@ -59,7 +59,7 @@ export default function HomePage() {
           <p className="text-gray-500 text-center">No posts found</p>
         ) : (
           posts.map((post) => (
-            <Link to={`/posts/${post.slug.current}`} key={post.slug.current}>
+            <Link to={`/posts/${post.slug.current}`} key={post._id}>
               <BlogCard
                 title={post.title}
                 authorName={post.authorName}
