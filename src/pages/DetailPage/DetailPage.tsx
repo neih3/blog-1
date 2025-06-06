@@ -21,41 +21,40 @@ function urlFor(source) {
 }
 
 export default function DetailPage() {
-  const { slug } = useParams();
+  const { id, slug } = useParams();
   const [title, setTitle] = useState("");
   const { user } = useUser();
-  const queryClient = useQueryClient(); // ✅ Fix: Define queryClient
+  const queryClient = useQueryClient();
 
   const {
     data: postData,
     isLoading,
     isError,
   } = useQuery({
-    queryKey: ["post", slug],
-    queryFn: () => fetchPost(slug),
-    enabled: !!slug,
+    queryKey: ["post", id, slug],
+    queryFn: () => fetchPost(id, slug),
+    enabled: !!id && !!slug,
   });
-  console.log(postData);
-  // ✅ Fix: Correct useMutation function
+
   const commentMutation = useMutation({
     mutationFn: async () =>
       await createComment({
         postId: postData._id,
         userId: user.id,
-        title: title, // Chuyển từ string sang blockContent
+        title: title,
       }),
     onSuccess: () => {
       toast.success("Bình luận đã được cập nhật");
-      setTitle(""); // ✅ Fix: Reset title inside onSuccess
+      setTitle("");
       queryClient.invalidateQueries({ queryKey: ["comments"] });
     },
   });
 
   const likeMutation = useMutation({
-    mutationFn: async () => await likePost(postData._id, user.id), // ✅ Corrected syntax
+    mutationFn: async () => await likePost(postData._id, user.id),
     onSuccess: () => {
       toast.success("Đã thích bài viết");
-      queryClient.invalidateQueries({ queryKey: ["post"] }); // ✅ Fix: Ensure likes update correctly
+      queryClient.invalidateQueries({ queryKey: ["post", id, slug] });
     },
   });
 

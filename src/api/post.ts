@@ -23,9 +23,9 @@ export const fetchPosts = async () => {
   return data;
 };
 
-export const fetchPost = async (slug) => {
+export const fetchPost = async (id: string, slug: string) => {
   const data = await sanityClient.fetch(
-    `*[_type == "post" && slug.current == $slug][0] {
+    `*[_type == "post" && _id == $id && slug.current == $slug][0] {
         title,
         _id,
         likes,
@@ -37,7 +37,7 @@ export const fetchPost = async (slug) => {
             title, 
             user-> {
               name,
-          "image": mainImage.asset->url
+              "image": mainImage.asset->url
             }
         },
         publishedAt,
@@ -55,7 +55,7 @@ export const fetchPost = async (slug) => {
           "image": mainImage.asset->url
         }
       }`,
-    { slug }
+    { id, slug }
   );
 
   return data;

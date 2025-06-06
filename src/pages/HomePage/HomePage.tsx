@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { Link, useLocation, useSearchParams } from "react-router-dom";
+import { useLocation, useSearchParams } from "react-router-dom";
 import Category from "../../components/Category";
 import BlogCard from "../../components/BlogCard/BlogCard";
 import { fetchPosts, fetchPostsInCategory } from "../../api/post.js";
@@ -8,10 +8,10 @@ export default function HomePage() {
   const [searchParams] = useSearchParams();
   const location = useLocation();
   const tag = searchParams.get("tag");
-  const categoryId = location.state?.categoryId; // ✅ Tránh lỗi khi `categoryId` là undefined
+  const categoryId = location.state?.categoryId;
 
   const {
-    data: posts = [], // ✅ Tránh lỗi khi `posts` là undefined
+    data: posts = [],
     isLoading,
     isError,
   } = useQuery({
@@ -22,9 +22,9 @@ export default function HomePage() {
       }
       return fetchPosts();
     },
-    enabled: true, //
+    enabled: true,
   });
-  console.log(posts);
+
   if (isLoading)
     return (
       <div className="container mx-auto">
@@ -59,13 +59,14 @@ export default function HomePage() {
           <p className="text-gray-500 text-center">No posts found</p>
         ) : (
           posts.map((post) => (
-            <Link to={`/posts/${post.slug.current}`} key={post._id}>
-              <BlogCard
-                title={post.title}
-                authorName={post.authorName}
-                image={post.mainImage?.asset.url || ""}
-              />
-            </Link>
+            <BlogCard
+              key={post._id}
+              title={post.title}
+              authorName={post.authorName}
+              image={post.mainImage?.asset.url || ""}
+              id={post._id}
+              slug={post.slug.current}
+            />
           ))
         )}
       </div>
