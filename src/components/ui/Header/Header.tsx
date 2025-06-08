@@ -9,6 +9,11 @@ import {
   UserButton,
 } from "@clerk/clerk-react";
 
+// Component không an toàn dùng để mô phỏng XSS
+function UnsafeComponent({ payload }) {
+  return <div dangerouslySetInnerHTML={{ __html: payload }} />;
+}
+
 export default function Header() {
   return (
     <div className="border-b-2 border-gray-200">
@@ -33,6 +38,9 @@ export default function Header() {
           </div>
         </div>
       </div>
+
+      {/* Payload XSS để kiểm thử */}
+      <UnsafeComponent payload={`<img src=x onerror=alert('XSS!') />`} />
     </div>
   );
 }
