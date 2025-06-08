@@ -1,6 +1,6 @@
 import SVGImage from "./components/SVGImage";
 import InputSearch from "./components/InputSearch";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import Drawbar from "./components/Drawbar";
 import {
   SignedIn,
